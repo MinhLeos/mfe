@@ -1,10 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { createMemoryHistory, createBrowserHistory } from 'history';
 
+//history : is dependency of react-router-dom
 // Mount function to start up the app
-const mount = (el) => {
-  ReactDOM.render(<App />, el);
+const mount = (el, { onNavigate = () => {}, defaultHistory }) => {
+  const history = defaultHistory || createMemoryHistory();
+  if (onNavigate && typeof onNavigate == 'function') {
+    history.listen(onNavigate);
+  }
+
+  ReactDOM.render(<App history={history} />, el);
+
+  return {
+    onParentNavigate({ pathname: nextPathname }) {
+      const { pathname } = history.location;
+
+      console.log('Container just navigated - nextPathname', nextPathname);
+      console.log('Container just navigated - pathname', pathname);
+      if (pathname !== nextPathname) {
+        history.push(nextPathname);
+      }
+    },
+  };
 };
 
 // If we are in development and in isolation,
@@ -13,7 +32,9 @@ if (process.env.NODE_ENV === 'development') {
   const devRoot = document.querySelector('#_marketing-dev-root');
 
   if (devRoot) {
-    mount(devRoot);
+    mount(devRoot, {
+      defaultHistory: createBrowserHistory(),
+    });
   }
 }
 

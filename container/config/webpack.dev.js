@@ -10,8 +10,9 @@ const devConfig = {
   devServer: {
     port: 8080,
     historyApiFallback: {
-      index: 'index.html',
+      index: '/index.html',
     },
+    // historyApiFallback: true,
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -21,7 +22,7 @@ const devConfig = {
       },
       shared: packageJson.dependencies,
       //   shared: ['react', 'react-dom'],
-    })
+    }),
   ],
 };
 
