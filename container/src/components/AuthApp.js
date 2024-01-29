@@ -3,7 +3,7 @@ import React from 'react';
 import { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-export default () => {
+export default ({isSignIn, onSignIn = () => {}}) => {
   const ref = useRef();
   const history = useHistory();
 
@@ -18,6 +18,7 @@ export default () => {
           history.push(nextPathname);
         }
       },
+      onSignIn
     });
     if (onParentNavigate && typeof onParentNavigate == 'function') {
       history.listen(onParentNavigate);
