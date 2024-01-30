@@ -8,25 +8,30 @@ const packageJson = require('../package.json');
 const devConfig = {
   mode: 'development',
   output: {
-    publicPath: 'http://localhost:8080/',
+    publicPath: 'http://localhost:8083/',
   },
   devServer: {
-    port: 8080,
+    port: 8083,
     historyApiFallback: {
       index: '/index.html',
     },
     // historyApiFallback: true,
+    headers: {
+        'Access-Control-Allow-Origin': '*'
+    }
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'container',
-      remotes: {
-        marketingModule: 'marketing@http://localhost:8081/remoteEntry.js',
-        authModule: 'auth@http://localhost:8082/remoteEntry.js',
-        dashboardModule: 'dashboard@http://localhost:8083/remoteEntry.js',
+      name: 'dashboard',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './DashboardApp': './src/bootstrap.js',
       },
       shared: packageJson.dependencies,
       //   shared: ['react', 'react-dom'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
     }),
   ],
 };
