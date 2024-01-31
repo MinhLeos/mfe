@@ -23,7 +23,7 @@ const generateClassName = createGenerateClassName({
 });
 
 const history = createBrowserHistory();
-const isStart = true;
+let isStart = true;
 
 export default () => {
   const [isSignIn, setIsSignIn] = useState(false);
