@@ -23,6 +23,7 @@ const generateClassName = createGenerateClassName({
 });
 
 const history = createBrowserHistory();
+const isStart = true;
 
 export default () => {
   const [isSignIn, setIsSignIn] = useState(false);
@@ -32,6 +33,7 @@ export default () => {
     if (useLogin) {
       setIsSignIn(true);
     }
+    isStart = false;
   }, []);
 
   function getCookie(cookieName) {
@@ -70,7 +72,7 @@ export default () => {
                 <AuthAppLazy isSignIn={isSignIn} onSignIn={onSignIn} />
               </Route>
               <Route path="/dashboard">
-                {!isSignIn && <Redirect to="/" />}
+                {!isStart && !isSignIn && <Redirect to="/" />}
                 <DashboardAppLazy />
               </Route>
               <Route path="/" component={MarketingAppLazy} />
