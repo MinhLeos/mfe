@@ -23,17 +23,17 @@ const generateClassName = createGenerateClassName({
 });
 
 const history = createBrowserHistory();
-let isStart = true;
 
 export default () => {
   const [isSignIn, setIsSignIn] = useState(false);
+  const [isStart, setIsStart] = useState(true);
 
   useEffect(() => {
     const useLogin = getCookie('user');
     if (useLogin) {
       setIsSignIn(true);
     }
-    isStart = false;
+    setIsStart(false);
   }, []);
 
   function getCookie(cookieName) {
