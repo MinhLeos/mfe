@@ -1,5 +1,6 @@
 <template>
   <div class="dashboard-container">
+  <div v-if="userCookie">{{ userCookie }}</div>
     <div class="p-grid p-fluid dashboard">
       <div class="p-col-12 p-lg-4">
         <div class="card summary">
@@ -299,7 +300,24 @@ export default {
     Chart,
   },
   data() {
+    function getCookie(name) {
+      const value = '; ' + document.cookie;
+      const parts = value.split('; ' + name + '=');
+
+      if (parts.length === 2) {
+        return parts.pop().split(';').shift();
+      }
+    }
+
+    const userCookie = getCookie('user');
+
+    if (userCookie) {
+      console.log("Value of 'user' cookie:", userCookie);
+    } else {
+      console.log('Cookie not found');
+    }
     return {
+      userCookie,
       tasksCheckbox: [],
       dropdownCities: [
         { name: 'New York', code: 'NY' },
@@ -444,8 +462,8 @@ $topbarSearchInputBorderBottomColor: #ffffff;
 $topbarSearchInputColor: #ffffff;
 
 .dashboard-container {
-    max-width: 960px;
-    margin: 0 auto;
+  max-width: 960px;
+  margin: 0 auto;
 }
 .card {
   background-color: #ffffff;

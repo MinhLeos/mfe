@@ -33,6 +33,11 @@ export default () => {
     }
   }, [isSignIn]);
 
+  const onSignIn = () => {
+    document.cookie =
+      'user=MinhLe; expires=Thu, 01 Jan 2025 00:00:00 UTC; path=/';
+    setIsSignIn(true);
+  };
   return (
     <Router history={history}>
       <StylesProvider generateClassName={generateClassName}>
@@ -41,15 +46,12 @@ export default () => {
           <Suspense fallback={<Progress />}>
             <Switch>
               <Route path="/auth">
-                <AuthAppLazy
-                  isSignIn={isSignIn}
-                  onSignIn={() => setIsSignIn(true)}
-                />
+                <AuthAppLazy isSignIn={isSignIn} onSignIn={onSignIn} />
               </Route>
               <Route path="/dashboard">
                 {!isSignIn && <Redirect to="/" />}
                 <DashboardAppLazy />
-                </Route>
+              </Route>
               <Route path="/" component={MarketingAppLazy} />
             </Switch>
           </Suspense>
