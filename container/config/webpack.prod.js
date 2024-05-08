@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
@@ -22,6 +23,12 @@ const prodConfig = {
       },
       shared: packageJson.dependencies,
       //   shared: ['react', 'react-dom'],
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'public/sitemap.xml', to: 'sitemap.xml' },
+        { from: 'public/robots.txt', to: 'robots.txt' },
+      ],
     }),
   ],
 };
